@@ -1,4 +1,40 @@
-***Folder Structure***
+# 
+
+## Overview
+This project manages organizations, projects, tasks, and users with a robust set of API routes. It leverages FastAPI for the backend and supports file management via AWS S3 or local storage. The project also includes an integrated DynamoDB instance for local testing and cloud-based services.
+
+### Requirements
+    Python 3.7+
+    Docker & Docker Compose
+    AWS Services: S3, Cloudwatch
+    DynamoDB Local (automatically started via Docker)
+
+### Docker Compose
+To get the project up and running with Docker Compose, follow these steps:
+
+***Start the Services***
+
+Run the following command to start the services (FastAPI, DynamoDB Local, etc.):
+```
+docker-compose up --build
+```
+    
+This command will:
++ Build the Docker images.
++ Start the FastAPI application along with DynamoDB Local (using docker-compose).
++ Automatically set up the necessary local storage and services.
++ Once the containers are up, FastAPI will be available at http://localhost:8000.
+
+***Stop the Services***
+
+To stop the running services, press Ctrl + C or run:
+
+```
+docker-compose down
+```
+
+
+### Folder Structure
 ````
 .
 ├── app
@@ -9,7 +45,8 @@
 │   │   ├── services
 │   │   │   ├── __init__.py
 │   │   │   ├── base.py            # Base service for shared functionality
-│   │   │   └── files.py           # FileService for S3 or local file operations
+│   │   │   ├── cloudwatch.py      # LogService for Cloudwatch or local logging operations
+│   │   │   └── s3.py              # FileService for S3 or local file operations
 │   ├── modules
 │   │   ├── __init__.py
 │   │   ├── v1                     # API version 1
