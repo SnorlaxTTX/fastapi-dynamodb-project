@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local
+    container_name: dynamodb-local
+    ports:
+      - "8010:8000"
+    command: -jar DynamoDBLocal.jar -sharedDb
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: fastapi-app
+    ports:
+      - "8000:8000"
+    environment:
+      AWS_PROFILE: "default"
+      AWS_REGION: "us-east-1"
+      DYNAMODB_TABLE: "ManagerTable"
+    depends_on:
+      - dynamodb-local
+    volumes:
+      - .:/app
+      - ~/.aws:/root/.aws:ro
+
+
+volumes:
+  dynamodb_data:
